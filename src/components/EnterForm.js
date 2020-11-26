@@ -10,11 +10,13 @@ function EnterForm ({ isNewUser }) {
       <input
         className="enter-form__input"
         name="email"
+        type="email"
         placeholder="Email"
       />
       <input
         className="enter-form__input"
         name="password"
+        type="password"
         placeholder="Пароль"
       />
       <button className="enter-form__submit-btn">

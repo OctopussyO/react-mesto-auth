@@ -11,6 +11,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import ConfirmPopup from "./ConfirmPopup";
 import { api } from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import Register from "./Register";
 
 function App() {
   // Переменная состояния для загрузки (показываем/убираем спиннер)
@@ -161,8 +162,11 @@ function App() {
           ) : (
             <div className={`content ${!wasResponse && "content_hidden"}`}>
               <Switch>
-                <Route path="/login">
+                <Route path="/signin">
                   <Login />
+                </Route>
+                <Route path="/signup">
+                  <Register />
                 </Route>
                 <Route exact path="/">
                   <Main

@@ -42,6 +42,10 @@
   color: #ccc;
 }
 
+.enter-form__input:focus {
+  outline: none;
+}
+
 .enter-form__submit-btn {
   width: 100%;
   background-color: #fff;
@@ -56,6 +60,10 @@
 
 .enter-form__submit-btn:hover {
   background-color: #ffffff85;
+}
+
+.enter-form__submit-btn:focus {
+  outline: none;
 }
 
 @media screen and (max-width: 600px) {
