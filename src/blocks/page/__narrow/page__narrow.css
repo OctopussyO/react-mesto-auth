@@ -1,0 +1,6 @@
+.page__narrow {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding-left: 19px;
+  padding-right: 19px;
+}

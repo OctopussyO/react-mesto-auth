@@ -1,0 +1,35 @@
+@import url(./__container/popup__container.css);
+@import url(./__fieldset/popup__fieldset.css);
+@import url(./__heading/popup__heading.css);
+@import url(./__input/popup__input.css);
+@import url(./__input/_valid/popup__input_valid.css);
+@import url(./__input/_invalid/popup__input_invalid.css);
+@import url(./__error/popup__error.css);
+@import url(./__save-button/popup__save-button.css);
+@import url(./__save-button/_blocked/popup__save-button_blocked.css);
+@import url(./__save-button/_unblocked/popup__save-button_unblocked.css);
+@import url(./__close-button/popup__close-button.css);
+@import url(./__image/popup_image.css);
+@import url(./__image-caption/popup__image-caption.css);
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding-left: 40px;
+  padding-right: 40px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  background-color: rgba(0, 0, 0, .5);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  z-index: 10;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: .4s opacity, .4s visibility;
+  -o-transition: .4s opacity, .4s visibility;
+  transition: .4s opacity, .4s visibility;
+}

@@ -1,0 +1,19 @@
+.popup__save-button {
+  height: 50px;
+  border-radius: 2px;
+  font-size: 18px;
+  -webkit-transition: background-color .2s linear;
+  -o-transition: background-color .2s linear;
+  transition: background-color .2s linear;
+}
+
+.popup__save-button:focus {
+  outline: none;
+}
+
+@media screen and (max-width: 600px) {
+  .popup__save-button {
+    height: 40px;
+    font-size: 14px;
+  }
+}
