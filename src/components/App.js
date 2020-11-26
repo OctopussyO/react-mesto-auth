@@ -12,12 +12,16 @@ import ConfirmPopup from "./ConfirmPopup";
 import { api } from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import Register from "./Register";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   // Переменная состояния для загрузки (показываем/убираем спиннер)
   const [isLoading, setLoadingState] = useState(true);
 
   const [wasResponse, setResponseState] = useState(false);
+
+  // Переменная состояния авторизованности пользователя
+  const [loggedIn, setLoggedIn] = useState(false);
 
   // Используем хуки состояния для открытия/закрытия попапов
   const [isEditProfilePopupOpen, setEditProfilePopupState] = useState(false);
@@ -151,6 +155,23 @@ function App() {
       });
   }, []);
 
+  // Эта обертка для компонента позволяет передавать дополнительные параметры из замыкания.
+  // Без неё пропсы не пробрасывались в Main,а массив карточек раскладывался в Object Object
+  const WrappedMain = (props) => {
+    return (
+      <Main
+        {...props}
+        cards={cards}
+        onAddPlace={handleAddPlaceClick}
+        onEditAvatar={handleEditAvatarClick}
+        onEditProfile={handleEditProfileClick}
+        onCardClick={handleCardClick}
+        onCardLike={handleCardLike}
+        onCardDelete={handleCardDelete}
+      />
+    )
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -168,21 +189,17 @@ function App() {
                 <Route path="/signup">
                   <Register />
                 </Route>
-                <Route exact path="/">
-                  <Main
-                    onAddPlace={handleAddPlaceClick}
-                    onEditAvatar={handleEditAvatarClick}
-                    onEditProfile={handleEditProfileClick}
-                    onCardClick={handleCardClick}
-                    cards={cards}
-                    onCardLike={handleCardLike}
-                    onCardDelete={handleCardDelete}
-                  />
-                </Route>
+                <ProtectedRoute 
+                  exact={true}
+                  path="/"
+                  component={WrappedMain}
+                  loggedIn={loggedIn}
+                />
               </Switch>
             </div>
           )}
-          <Footer />
+          {loggedIn && <Footer />}
+          <Footer loggedIn={loggedIn} />
         </div>
         {isEditProfilePopupOpen && (
           <EditProfilePopup
