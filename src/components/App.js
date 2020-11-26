@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Route, Switch } from 'react-router-dom';
 import Header from "./Header";
 import Main from "./Main";
+import Login from "./Login";
 import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
@@ -160,6 +161,9 @@ function App() {
           ) : (
             <div className={`content ${!wasResponse && "content_hidden"}`}>
               <Switch>
+                <Route path="/login">
+                  <Login />
+                </Route>
                 <Route exact path="/">
                   <Main
                     onAddPlace={handleAddPlaceClick}
