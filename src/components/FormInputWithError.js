@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import cn from 'classnames';
 
 const FormInputWithError = React.memo(
   ({
@@ -10,16 +11,35 @@ const FormInputWithError = React.memo(
     value,
     onChange,
     inputRef,
+    themeModificator,
+    actModificator
   }) => {
     const [errorMessage, setErrorMessage] = useState("");
+    const [isValid, setValidState] = useState(true);
+
     const handleChange = (e) => {
       setErrorMessage(e.target.validationMessage);
       onChange(e);
+      setValidState(e.target.validity.valid);
     }
+
+    let inputClassName = cn(
+      'form__input',
+      {[`form__input_theme_${themeModificator}`]: themeModificator},
+      {[`form__input_act_${actModificator}`]: actModificator},
+      {'form__input_valid': isValid},
+      {'form__input_invalid': !isValid},
+    );
+
+    const errorClassName = cn(
+      'form__error',
+      {[`form__error_in_${name}`]: name},
+    );
+
     return (
       <>
         <input
-          className="popup__input popup__input_valid"
+          className={inputClassName}
           name={name}
           placeholder={placeholder}
           type={type}
@@ -31,7 +51,7 @@ const FormInputWithError = React.memo(
           onChange={handleChange}
           ref={inputRef}
         />
-        <span className={`popup__error popup__error_in_${name}`}>
+        <span className={errorClassName}>
           {errorMessage}
         </span>
       </>

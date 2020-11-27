@@ -1,8 +1,18 @@
 import React, { useState } from "react";
+import cn from 'classnames';
 import FormInputWithError from "./FormInputWithError";
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup({ onClose, onAddPlace }) {
+  const themeModificator = "light";
+  const actModificator = "activity";
+
+  const fieldsetClassName = cn(
+    'form__fieldset',
+    {[`form__fieldset_theme_${themeModificator}`]: themeModificator},
+    {[`form__fieldset_act_${actModificator}`]: actModificator},
+  );
+
   // Стейт-переменные для управляемых компонентов
   const [place, setPlace] = useState("");
   const [link, setLink] = useState("");
@@ -31,8 +41,10 @@ function AddPlacePopup({ onClose, onAddPlace }) {
       submitTitle="Создать"
       submitLoadingTitle="Сохранение..."
       isSubmitActive={false}
+      themeModificator={themeModificator}
+      actModificator={actModificator}
     >
-      <fieldset className="popup__fieldset">
+      <fieldset className={fieldsetClassName}>
         <FormInputWithError
           name="place"
           placeholder="Название"
@@ -41,6 +53,8 @@ function AddPlacePopup({ onClose, onAddPlace }) {
           maxLength="30"
           value={place}
           onChange={handlePlaceChange}
+          themeModificator={themeModificator}
+          actModificator={actModificator}
         />
         <FormInputWithError
           name="link"
@@ -48,6 +62,8 @@ function AddPlacePopup({ onClose, onAddPlace }) {
           type="url"
           value={link}
           onChange={handleLinkChange}
+          themeModificator={themeModificator}
+          actModificator={actModificator}
         />
       </fieldset>
     </PopupWithForm>

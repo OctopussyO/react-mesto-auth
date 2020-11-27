@@ -11,22 +11,24 @@ function PopupWithForm({
   submitLoadingTitle,
   isSubmitActive,
   children,
+  themeModificator,
+  actModificator,
 }) {
-
   return (
     <Popup
       name={name}
-      title={title}
       onClose={onClose}
       isFormInside={true}
     >
       <Form
-        formSelector="popup__form"
+        themeModificator={themeModificator}
+        actModificator={actModificator}
         submitTitle={submitTitle}
         submitLoadingTitle={submitLoadingTitle}
         isSubmitActive={isSubmitActive}
         onSubmit={onSubmit}
         name={name}
+        title={title}
       >
         {children}
       </Form>

@@ -18,7 +18,6 @@ function useFormValidation ({ formRef, isSubmitActive }) {
         .every((elem) => elem.validity.valid);
   
       setSubmitValidity(isFormValid);
-      console.log(isSubmitValid)
     });
 
     return {

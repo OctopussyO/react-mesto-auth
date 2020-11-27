@@ -1,9 +1,19 @@
 import React, { useState, useContext } from "react";
-import PopupWithForm from "./PopupWithForm";
+import cn from 'classnames';
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import PopupWithForm from "./PopupWithForm";
 import FormInputWithError from "./FormInputWithError";
 
 function EditProfilePopup({ onClose, onUpdateUser }) {
+  const themeModificator = "light";
+  const actModificator = "activity";
+
+  const fieldsetClassName = cn(
+    'form__fieldset',
+    {[`form__fieldset_theme_${themeModificator}`]: themeModificator},
+    {[`form__fieldset_act_${actModificator}`]: actModificator},
+  );
+
   // Используем контекст для установки начальных значений стейт-переменных для управляемых компонентов
   const currentUser = useContext(CurrentUserContext);
   const [name, setName] = useState(currentUser.name);
@@ -33,8 +43,10 @@ function EditProfilePopup({ onClose, onUpdateUser }) {
       submitTitle="Сохранить"
       submitLoadingTitle="Сохранение..."
       isSubmitActive={true}
+      themeModificator={themeModificator}
+      actModificator={actModificator}
     >
-      <fieldset className="popup__fieldset">
+      <fieldset className={fieldsetClassName}>
         <FormInputWithError
           name="name"
           placeholder="Имя"
@@ -43,6 +55,8 @@ function EditProfilePopup({ onClose, onUpdateUser }) {
           maxLength="40"
           value={name}
           onChange={handleNameChange}
+          themeModificator={themeModificator}
+          actModificator={actModificator}
         />
         <FormInputWithError
           name="info"
@@ -52,6 +66,8 @@ function EditProfilePopup({ onClose, onUpdateUser }) {
           maxLength="200"
           value={info}
           onChange={handleInfoChange}
+          themeModificator={themeModificator}
+          actModificator={actModificator}
         />
       </fieldset>
     </PopupWithForm>

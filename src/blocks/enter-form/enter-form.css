@@ -1,13 +1,13 @@
 .enter-form {
   margin: auto;
   box-sizing: border-box;
-  padding: 40px 30px;
+  padding: 20px 30px;
   max-width: 418px;
 }
 
 .enter-form__heading {
   margin-top: 0;
-  margin-bottom: 38px;
+  margin-bottom: 42px;
   text-align: center;
   font-size: 24px;
   line-height: 1.2;
@@ -26,11 +26,12 @@
   width: 100%;
   background-color: transparent;
   border: none;
+  box-sizing: border-box;
   border-bottom: 1px solid #fff;
-  padding: 12px 0;
+  padding: 10px 0;
   margin-bottom: 16px;
   font-size: 14px;
-  line-height: 1.2;
+  /* line-height: 1.2; */
   color: #fff;
 }
 

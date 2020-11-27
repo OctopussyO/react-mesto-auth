@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import Form from './Form';
 
 function EnterForm ({ isNewUser }) {
@@ -23,14 +22,6 @@ function EnterForm ({ isNewUser }) {
       <button className="enter-form__submit-btn">
         {isNewUser ? 'Зарегистрироваться' : 'Войти'}
       </button>
-      {isNewUser && (
-        <p className="enter-form__paragraph">
-        Уже зарегистрированы?&nbsp;
-          <Link to="/login" className="enter-form__link">
-            Войти
-          </Link>
-        </p>
-      )}
     </Form>
   )
 }

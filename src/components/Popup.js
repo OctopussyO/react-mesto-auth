@@ -4,7 +4,6 @@ import cn from 'classnames';
 function Popup ({
   children,
   name=null,
-  title=null,
   onClose,
   isImageInside=false,
   isFormInside=false,
@@ -53,7 +52,6 @@ function Popup ({
       onMouseDown={handleOverlayPopupClick}
     >
       <div className={containerClassName}>
-        {title && <h2 className="popup__heading">{title}</h2>}
         {children}
         <button
           className="popup__close-button page__button"

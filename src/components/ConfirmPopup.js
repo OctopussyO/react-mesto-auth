@@ -15,6 +15,8 @@ function ConfirmPopup({ deletedCard, onConfirmDelete, onClose }) {
       submitTitle="Да"
       submitLoadingTitle="Удаление..."
       isSubmitActive={true}
+      themeModificator="light"
+      actModificator="activity"
     />
   );
 }
