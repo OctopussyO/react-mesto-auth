@@ -13,6 +13,7 @@ import { api } from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
+import InfoTooltip from "./InfoTooltip";
 
 function App() {
   // Переменная состояния для загрузки (показываем/убираем спиннер)
@@ -21,7 +22,7 @@ function App() {
   const [wasResponse, setResponseState] = useState(false);
 
   // Переменная состояния авторизованности пользователя
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
 
   // Используем хуки состояния для открытия/закрытия попапов
   const [isEditProfilePopupOpen, setEditProfilePopupState] = useState(false);
@@ -229,6 +230,7 @@ function App() {
             onClose={ closeAllPopups }
             onConfirmDelete={handleConfirmDelete}/>
         )}
+        <InfoTooltip />
       </div>
     </CurrentUserContext.Provider>
   );
