@@ -30,6 +30,7 @@ function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupState] = useState(false);
   const [isImagePopupOpen, setImagePopupState] = useState(false);
   const [isConfirmPopupOpen, setConfirmPopupState] = useState(false);
+  const [isInfoTooltipOpen, setIntoTooltipState] = useState(true);
 
   const handleEditAvatarClick = () => {
     setEditAvatarPopupState(true);
@@ -54,6 +55,7 @@ function App() {
     setAddPlacePopupState(false);
     setImagePopupState(false);
     setConfirmPopupState(false);
+    setIntoTooltipState(false);
   };
 
   // Стейт-переменные для текущего состояния страницы
@@ -227,10 +229,14 @@ function App() {
         {isConfirmPopupOpen && (
           <ConfirmPopup
             deletedCard={selectedCard}
-            onClose={ closeAllPopups }
+            onClose={closeAllPopups}
             onConfirmDelete={handleConfirmDelete}/>
         )}
-        <InfoTooltip />
+        {isInfoTooltipOpen && 
+          <InfoTooltip
+            onClose={closeAllPopups}
+          />
+        }
       </div>
     </CurrentUserContext.Provider>
   );

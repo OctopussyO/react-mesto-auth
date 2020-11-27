@@ -1,34 +1,14 @@
 import React, { useEffect } from "react";
+import Popup from "./Popup";
 
 function ImagePopup({ place, onClose }) {
-  // Обработчик клика по оверлею
-  const handleOverlayPopupClick = (evt) => {
-    if (!evt.target.closest(".popup__container")) {
-      onClose();
-    }
-  };
-
-  // Обработчик нажатия клавиши "Escape"
-  const handleEscape = (evt) => {
-    if (evt.key === "Escape") {
-      onClose();
-    }
-  };
-
-  // Используем хук эффекта для закрытия модалки по нажатию клавиши "Escape"
-  useEffect(() => {
-    document.body.addEventListener("keydown", handleEscape);
-    return () => {
-      document.body.removeEventListener("keydown", handleEscape);
-    };
-  });
-
   return (
-    <div
-      className="popup popup_act_enlarge-image popup_active"
-      onMouseDown={handleOverlayPopupClick}
+    <Popup
+      name='enlarge-image'
+      isImageInside={true}
+      onClose={onClose}
     >
-      <figure className="popup__container">
+      <figure className="popup__image-container">
         <img
           className="popup__image"
           src={place.link}
@@ -44,7 +24,7 @@ function ImagePopup({ place, onClose }) {
           />
         </figcaption>
       </figure>
-    </div>
+    </Popup>
   );
 }
 

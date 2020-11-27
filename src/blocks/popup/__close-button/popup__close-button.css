@@ -4,8 +4,6 @@
   width: 40px;
   padding: 0 0 40px;
   position: absolute;
-  top: -36px;
-  right: -36px;
   overflow: hidden;
 }
 
@@ -27,7 +25,5 @@
   .popup__close-button {
     width: 32px;
     padding-bottom: 32px;
-    top: -30px;
-    right: -28px;
   }
 }
