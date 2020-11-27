@@ -1,6 +1,5 @@
 .card__heading {
-  -o-text-overflow: ellipsis;
-     text-overflow: ellipsis;
+  text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
   margin-top: 0;

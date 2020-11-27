@@ -30,7 +30,7 @@ function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupState] = useState(false);
   const [isImagePopupOpen, setImagePopupState] = useState(false);
   const [isConfirmPopupOpen, setConfirmPopupState] = useState(false);
-  const [isInfoTooltipOpen, setIntoTooltipState] = useState(true);
+  const [isInfoTooltipOpen, setIntoTooltipState] = useState(false);
 
   const handleEditAvatarClick = () => {
     setEditAvatarPopupState(true);
@@ -201,7 +201,6 @@ function App() {
               </Switch>
             </div>
           )}
-          {loggedIn && <Footer />}
           <Footer loggedIn={loggedIn} />
         </div>
         {isEditProfilePopupOpen && (

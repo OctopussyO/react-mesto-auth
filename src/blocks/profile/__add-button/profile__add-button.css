@@ -9,8 +9,7 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: auto 40%;
-  -ms-flex-negative: 0;
-      flex-shrink: 0;
+  flex-shrink: 0;
 }
 
 @media screen and (max-width: 600px) {

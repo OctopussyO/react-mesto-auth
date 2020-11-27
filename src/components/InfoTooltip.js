@@ -23,7 +23,6 @@ function InfoTooltip ({ onClose }) {
         }
       </p>
     </Popup>
-
   )
 }
 

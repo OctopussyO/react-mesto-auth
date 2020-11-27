@@ -15,9 +15,7 @@
   top: 0;
   left: 0;
   background: center / cover url(../../../images/icon-plus.svg) no-repeat;
-  -webkit-transform: rotate(45deg);
-      -ms-transform: rotate(45deg);
-          transform: rotate(45deg);
+  transform: rotate(45deg);
 }
 
 

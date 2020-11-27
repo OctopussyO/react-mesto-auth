@@ -7,6 +7,5 @@
   /* background-image: url(../../../images/konuhov.jpg); */
   background-position: top;
   background-size: cover;
-  -ms-flex-negative: 0;
-      flex-shrink: 0;
+  flex-shrink: 0;
 }

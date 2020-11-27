@@ -1,9 +1,10 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import Form from './Form';
 
 function EnterForm ({ isNewUser }) {
   return (
-    <form className="enter-form">
+    <Form formSelector="enter-form">
       <h2 className="enter-form__heading">
         {isNewUser ? 'Регистрация': 'Вход'}
       </h2>
@@ -30,7 +31,7 @@ function EnterForm ({ isNewUser }) {
           </Link>
         </p>
       )}
-    </form>
+    </Form>
   )
 }
 
