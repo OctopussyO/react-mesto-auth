@@ -59,11 +59,32 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   const [userData, setUserData] = useState({
-    email: '',
-  })
+    email: ''
+  });
+
+  // При загрузке страницы сразу проверяем, авторизован ли пользователь
+  useEffect(() => {
+    tokenCheck();
+  }, []);
 
   const tokenCheck = () => {
-
+    const token = localStorage.getItem('token');
+    if (token) {
+      auth.getContent('token')
+        .then((res) => {
+          if (res.data) {
+            setUserData({email: res.data.email});
+            setLoggedIn(true);
+          }
+        })
+        .catch((err) => {
+          // Здесь ошибку пользователю не выводим, потому что в редких случаях она ему что-то даст.
+          // Тот, кому это необходимо, найдёт её в консоли.
+          // Вывод ошибки здесь выглядит странно, потому что пользователь даже не поймёт, в чём дело
+          // -- зашёл на чсайт, ещё ничего не сделал, а уже ошибка.
+          console.error(err);
+        })
+    }
   }
 
   // Стейт-переменная для определения контента тултипа
@@ -74,10 +95,11 @@ function App() {
     console.log(email, password)
     auth.register({ email, password })
       .then((data) => {
-        setUserData({ email: data.email });
-        setSuccess(true);
-        setInfoTooltipState(true);
-        history.push('/sign-in');
+        if (data.email) {
+          setSuccess(true);
+          setInfoTooltipState(true);
+          history.push('/sign-in');
+        }
       })
       .catch((err) => {
         setSuccess(false);
@@ -87,10 +109,29 @@ function App() {
         setInfoTooltipState(true);
         history.push('/sign-up');
       })
+      .finally(() => setTooltipMessage(''))
   }
 
-  const handleLogin = () => {
-    
+  const handleLogin = ({ email, password }) => {
+    auth.login({ email, password })
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+          setLoggedIn(true);
+          history.push('/');
+        }
+      })
+      .catch((err) => {
+        setSuccess(false);
+        if (err.status === 401) {
+          setTooltipMessage('Некорректно введён email или пароль.')
+        } else if (err.status === 400) {
+          setTooltipMessage('Не передано одно из полей.')
+        }
+        setInfoTooltipState(true);
+        history.push('/sign-in');
+      })
+      .finally(() => setTooltipMessage(''))
   }
 
   // Логика открытия/закрытия попапов

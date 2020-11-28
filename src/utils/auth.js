@@ -40,6 +40,7 @@ class Auth  {
         "Authorization": `Bearer ${token}`
       }
     })
+      .then(this._handleResponse);
   }
 }
 

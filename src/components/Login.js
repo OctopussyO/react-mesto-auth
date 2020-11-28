@@ -27,7 +27,7 @@ function Login ({ onLogin, tokenCheck }) {
   };
 
   const handleSubmit = () => {
-    console.log(data)
+    onLogin(data);
   }
 
   return (
