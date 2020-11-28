@@ -18,18 +18,19 @@ import InfoTooltip from "./InfoTooltip";
 import ResponseError from "./ResponseError";
 
 function App() {
-  // Переменная состояния для загрузки (показываем/убираем спиннер)
+  // Переменная состояния для загрузки (показываем/убираем спиннер,
+  // отрисовываем ошибку при необходимости)
   const [isLoading, setLoadingState] = useState(true);
 
   const [wasResponse, setResponseState] = useState(false);
-
-  let contentClassName = cn('content', {'content_hidden': !wasResponse});
-  let responseErrorClassName = cn('response-error', {'response-error_hidden': wasResponse});
 
   const [responseError, setResponseError] = useState({
     status: '',
     statusText: ''
   });
+
+  let contentClassName = cn('content', {'content_hidden': !wasResponse});
+  let responseErrorClassName = cn('response-error', {'response-error_hidden': wasResponse});
 
   // Переменная состояния авторизованности пользователя
   const [loggedIn, setLoggedIn] = useState(false);
