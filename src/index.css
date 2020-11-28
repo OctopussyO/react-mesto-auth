@@ -6,7 +6,6 @@
 @import url(./blocks/content/_hidden/content_hidden.css);
 @import url(./blocks/spinner/spinner.css);
 @import url(./blocks/spinner/_visible/spinner_visible.css);
-@import url(./blocks/enter-form/enter-form.css);
 @import url(./blocks/profile/profile.css);
 @import url(./blocks/gallery/gallery.css);
 @import url(./blocks/card/card.css);
@@ -15,3 +14,4 @@
 @import url(./blocks/popup/popup.css);
 @import url(./blocks/popup/_active/popup_active.css);
 @import url(./blocks/form/form.css);
+@import url(./blocks/response-error/response-error.css);

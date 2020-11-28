@@ -26,8 +26,6 @@ function Form ({
     {[`form__heading_act_${actModificator}`]: actModificator},
   );
 
-  console.log(actModificator)
-
   // Определяем, нажата ли кнопка отправки формы для подстановки загрузочного текста
   const [isSubmitted, setSubmitState] = useState(false);
 

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Route, Switch } from 'react-router-dom';
+import cn from 'classnames';
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { api } from "../utils/api";
 import Header from "./Header";
 import Main from "./Main";
 import Login from "./Login";
@@ -9,11 +12,10 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import ConfirmPopup from "./ConfirmPopup";
-import { api } from "../utils/api";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
 import InfoTooltip from "./InfoTooltip";
+import ResponseError from "./ResponseError";
 
 function App() {
   // Переменная состояния для загрузки (показываем/убираем спиннер)
@@ -21,8 +23,16 @@ function App() {
 
   const [wasResponse, setResponseState] = useState(false);
 
+  let contentClassName = cn('content', {'content_hidden': !wasResponse});
+  let responseErrorClassName = cn('response-error', {'response-error_hidden': wasResponse});
+
+  const [responseError, setResponseError] = useState({
+    status: '',
+    statusText: ''
+  });
+
   // Переменная состояния авторизованности пользователя
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   // Используем хуки состояния для открытия/закрытия попапов
   const [isEditProfilePopupOpen, setEditProfilePopupState] = useState(false);
@@ -151,13 +161,15 @@ function App() {
         setResponseState(true);
       })
       .catch((err) => {
-        alert(err);
+        setResponseError({
+          status: err.status,
+          statusText: err.statusText
+        });
       })
       .finally(() => {
         setLoadingState(false);
       });
   }, []);
-
   // Эта обертка для компонента позволяет передавать дополнительные параметры из замыкания.
   // Без неё пропсы не пробрасывались в Main,а массив карточек раскладывался в Object Object
   const WrappedMain = (props) => {
@@ -180,26 +192,31 @@ function App() {
       <div className="page">
         <div className="page__container">
           <Header />
-          {/* Пробрасываем обработчики клика */}
           {isLoading ? (
             <div className="spinner spinner_visible" />
           ) : (
-            <div className={`content ${!wasResponse && "content_hidden"}`}>
-              <Switch>
-                <Route path="/signin">
-                  <Login />
-                </Route>
-                <Route path="/signup">
-                  <Register />
-                </Route>
-                <ProtectedRoute 
-                  exact={true}
-                  path="/"
-                  component={WrappedMain}
-                  loggedIn={loggedIn}
-                />
-              </Switch>
-            </div>
+            <>
+              <div className={contentClassName}>
+                <Switch>
+                  <Route path="/sign-in">
+                    <Login />
+                  </Route>
+                  <Route path="/sign-up">
+                    <Register />
+                  </Route>
+                  <ProtectedRoute 
+                    exact={true}
+                    path="/"
+                    component={WrappedMain}
+                    loggedIn={loggedIn}
+                  />
+                </Switch>
+              </div>
+              <ResponseError
+                className={responseErrorClassName}
+                responseError={responseError}
+              />
+            </>
           )}
           <Footer loggedIn={loggedIn} />
         </div>
