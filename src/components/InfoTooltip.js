@@ -3,23 +3,24 @@ import Popup from './Popup';
 import okIcon from '../images/ok-icon.svg';
 import notOkIcon from '../images/not-ok-icon.svg';
 
-function InfoTooltip ({ onClose }) {
-  const isResOk = true;
+function InfoTooltip ({ isSuccess, message, onClose }) {
+  const backgroundImageStyles = isSuccess
+    ? {backgroundImage: `url(${okIcon})`}
+    : {backgroundImage: `url(${notOkIcon})`}
+
+  const notOkMessage = message ? message : 'Что-то пошло не так! Попробуйте ещё раз.';
   return (
     <Popup
       isTooltipInside={true}
       onClose={onClose}
     >
       <div className="popup__tooltip-icon"
-      style={isResOk
-        ? {backgroundImage: `url(${okIcon})`}
-        : {backgroundImage: `url(${notOkIcon})`
-      }}
+      style={backgroundImageStyles}
       />
       <p className="popup__tooltip-paragraph">
-        {isResOk
+        {isSuccess
           ? 'Вы успешно зарегистрировались!'
-          : 'Что-то пошло не так! Попробуйте ещё раз.'
+          : `${notOkMessage}`
         }
       </p>
     </Popup>

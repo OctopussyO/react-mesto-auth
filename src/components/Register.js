@@ -4,7 +4,7 @@ import cn from 'classnames';
 import Form from './Form';
 import FormInputWithError from './FormInputWithError';
 
-function Register ({ onSubmit }) {
+function Register ({ onRegister }) {
   const themeModificator = "dark";
   const actModificator = "identification";
 
@@ -14,16 +14,25 @@ function Register ({ onSubmit }) {
     {[`form__fieldset_act_${actModificator}`]: actModificator},
   );
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [data, setData] = useState({
+    email: '',
+    password: '',
+  });
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+
+  const handleDataChange = (e) => {
+    const {name, value} = e.target;
+    setData({
+      ...data,
+      [name]: value
+    })
   };
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
+  const handleSubmit = () => {
+    onRegister(data);
+  }
 
   return (
     <>
@@ -36,7 +45,7 @@ function Register ({ onSubmit }) {
         submitTitle="Зарегистрироваться"
         submitLoadingTitle="Регистрация..."
         isSubmitActive={false}
-        onSubmit={onSubmit}
+        onSubmit={handleSubmit}
       >
         <fieldset className={fieldsetClassName}>
           <FormInputWithError
@@ -45,8 +54,8 @@ function Register ({ onSubmit }) {
             name="email"
             type="email"
             placeholder="Email"
-            value={email}
-            onChange={handleEmailChange}
+            value={data.email}
+            onChange={handleDataChange}
           />
           <FormInputWithError
             themeModificator={themeModificator}
@@ -56,14 +65,14 @@ function Register ({ onSubmit }) {
             placeholder="Пароль"
             minLength="6"
             maxLength="50"
-            value={password}
-            onChange={handlePasswordChange}
+            value={data.password}
+            onChange={handleDataChange}
           />
         </fieldset>
       </Form>
       <p className="form__paragraph">
         Уже зарегистрированы?&nbsp;
-        <Link to="/login" className="enter-form__link">
+        <Link to="/login" className="form__link page__link">
           Войти
         </Link>
       </p>

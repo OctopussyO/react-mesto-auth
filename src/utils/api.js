@@ -8,10 +8,7 @@ class Api {
   }
 
   _handleResponse(res) {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(res);
+    return (res.ok) ? res.json() : Promise.reject(res);
   }
 
   getUserData() {

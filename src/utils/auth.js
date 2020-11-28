@@ -6,13 +6,11 @@ class Auth  {
   }
 
   _handleResponse(res) {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(res);
+    return (res.ok) ? res.json() : Promise.reject(res);
   }
 
   register(data) {
+    console.log(data)
     return fetch(`${this._baseUrl}/signup`, {
       method: 'POST',
       headers: {
@@ -45,4 +43,4 @@ class Auth  {
   }
 }
 
-export const auth = new Auth({ AUTH_BASE_URL });
+export const auth = new Auth({ baseUrl: AUTH_BASE_URL });

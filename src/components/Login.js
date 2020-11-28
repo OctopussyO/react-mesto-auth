@@ -3,7 +3,7 @@ import cn from 'classnames';
 import Form from './Form';
 import FormInputWithError from './FormInputWithError';
 
-function Login ({ onSubmit }) {
+function Login ({ onLogin, tokenCheck }) {
   const themeModificator = "dark";
   const actModificator = "identification";
 
@@ -13,16 +13,22 @@ function Login ({ onSubmit }) {
     {[`form__fieldset_act_${actModificator}`]: actModificator},
   );
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [data, setData] = useState({
+    email: '',
+    password: '',
+  });
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+  const handleDataChange = (e) => {
+    const {name, value} = e.target;
+    setData({
+      ...data,
+      [name]: value
+    })
   };
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
+  const handleSubmit = () => {
+    console.log(data)
+  }
 
   return (
     <>
@@ -35,7 +41,7 @@ function Login ({ onSubmit }) {
         submitTitle="Войти"
         submitLoadingTitle="Вход..."
         isSubmitActive={false}
-        onSubmit={onSubmit}
+        onSubmit={handleSubmit}
       >
         <fieldset className={fieldsetClassName}>
           <FormInputWithError
@@ -44,8 +50,8 @@ function Login ({ onSubmit }) {
             name="email"
             type="email"
             placeholder="Email"
-            value={email}
-            onChange={handleEmailChange}
+            value={data.email}
+            onChange={handleDataChange}
           />
           <FormInputWithError
             themeModificator={themeModificator}
@@ -55,8 +61,8 @@ function Login ({ onSubmit }) {
             placeholder="Пароль"
             minLength="6"
             maxLength="50"
-            value={password}
-            onChange={handlePasswordChange}
+            value={data.password}
+            onChange={handleDataChange}
           />
         </fieldset>
       </Form>

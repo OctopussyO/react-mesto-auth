@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import cn from 'classnames';
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { api } from "../utils/api";
@@ -16,10 +16,10 @@ import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
 import InfoTooltip from "./InfoTooltip";
 import ResponseError from "./ResponseError";
+import { auth } from "../utils/auth";
 
 function App() {
-  // Переменная состояния для загрузки (показываем/убираем спиннер,
-  // отрисовываем ошибку при необходимости)
+  // Логика загрузки (показываем/убираем спиннер, отрисовываем ошибку при необходимости)
   const [isLoading, setLoadingState] = useState(true);
 
   const [wasResponse, setResponseState] = useState(false);
@@ -32,16 +32,74 @@ function App() {
   let contentClassName = cn('content', {'content_hidden': !wasResponse});
   let responseErrorClassName = cn('response-error', {'response-error_hidden': wasResponse});
 
-  // Переменная состояния авторизованности пользователя
+  // Загрузка пользовательских данных с сервера
+  useEffect(() => {
+    Promise.all([api.getUserData(), api.getData()])
+      .then(([userData, cardsData]) => {
+        setCurrentUser(userData);
+        setCards(cardsData);
+        setResponseState(true);
+      })
+      .catch((err) => {
+        // TODO -- убрать строчку ниже -- это на время, пока сервер не работал
+        setResponseState(true)
+        setResponseError({
+          status: err.status,
+          statusText: err.statusText
+        });
+      })
+      .finally(() => {
+        setLoadingState(false);
+      });
+  }, []);
+
+  // Авторизация пользователя
+  const history = useHistory();
+
   const [loggedIn, setLoggedIn] = useState(false);
 
-  // Используем хуки состояния для открытия/закрытия попапов
+  const [userData, setUserData] = useState({
+    email: '',
+  })
+
+  const tokenCheck = () => {
+
+  }
+
+  // Стейт-переменная для определения контента тултипа
+  const [isSuccess, setSuccess] = useState(true);
+  const [tooltipMessage, setTooltipMessage] = useState();
+
+  const handleRegister = ({ email, password }) => {
+    console.log(email, password)
+    auth.register({ email, password })
+      .then((data) => {
+        setUserData({ email: data.email });
+        setSuccess(true);
+        setInfoTooltipState(true);
+        history.push('/sign-in');
+      })
+      .catch((err) => {
+        setSuccess(false);
+        if (err.status === 400) {
+          setTooltipMessage('Некорректно заполнено одно из полей.')
+        }
+        setInfoTooltipState(true);
+        history.push('/sign-up');
+      })
+  }
+
+  const handleLogin = () => {
+    
+  }
+
+  // Логика открытия/закрытия попапов
   const [isEditProfilePopupOpen, setEditProfilePopupState] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupState] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupState] = useState(false);
   const [isImagePopupOpen, setImagePopupState] = useState(false);
   const [isConfirmPopupOpen, setConfirmPopupState] = useState(false);
-  const [isInfoTooltipOpen, setIntoTooltipState] = useState(false);
+  const [isInfoTooltipOpen, setInfoTooltipState] = useState(false);
 
   const handleEditAvatarClick = () => {
     setEditAvatarPopupState(true);
@@ -66,7 +124,7 @@ function App() {
     setAddPlacePopupState(false);
     setImagePopupState(false);
     setConfirmPopupState(false);
-    setIntoTooltipState(false);
+    setInfoTooltipState(false);
   };
 
   // Стейт-переменные для текущего состояния страницы
@@ -154,23 +212,6 @@ function App() {
     });    
   }
 
-  useEffect(() => {
-    Promise.all([api.getUserData(), api.getData()])
-      .then(([userData, cardsData]) => {
-        setCurrentUser(userData);
-        setCards(cardsData);
-        setResponseState(true);
-      })
-      .catch((err) => {
-        setResponseError({
-          status: err.status,
-          statusText: err.statusText
-        });
-      })
-      .finally(() => {
-        setLoadingState(false);
-      });
-  }, []);
   // Эта обертка для компонента позволяет передавать дополнительные параметры из замыкания.
   // Без неё пропсы не пробрасывались в Main,а массив карточек раскладывался в Object Object
   const WrappedMain = (props) => {
@@ -200,10 +241,10 @@ function App() {
               <div className={contentClassName}>
                 <Switch>
                   <Route path="/sign-in">
-                    <Login />
+                    <Login onLogin={handleLogin} tokenCheck={tokenCheck} />
                   </Route>
                   <Route path="/sign-up">
-                    <Register />
+                    <Register onRegister={handleRegister}/>
                   </Route>
                   <ProtectedRoute 
                     exact={true}
@@ -251,6 +292,8 @@ function App() {
         )}
         {isInfoTooltipOpen && 
           <InfoTooltip
+            isSuccess={isSuccess}
+            message={tooltipMessage}
             onClose={closeAllPopups}
           />
         }
