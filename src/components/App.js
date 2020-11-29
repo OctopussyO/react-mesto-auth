@@ -259,23 +259,6 @@ function App() {
     });    
   }
 
-  // Эта обертка для компонента позволяет передавать дополнительные параметры из замыкания.
-  // Без неё пропсы не пробрасывались в Main,а массив карточек раскладывался в Object Object
-  const WrappedMain = (props) => {
-    return (
-      <Main
-        {...props}
-        cards={cards}
-        onAddPlace={handleAddPlaceClick}
-        onEditAvatar={handleEditAvatarClick}
-        onEditProfile={handleEditProfileClick}
-        onCardClick={handleCardClick}
-        onCardLike={handleCardLike}
-        onCardDelete={handleCardDelete}
-      />
-    )
-  }
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -302,10 +285,17 @@ function App() {
                     />
                   </Route>
                   <ProtectedRoute 
-                    exact={true}
+                    exact
                     path="/"
-                    component={WrappedMain}
                     loggedIn={loggedIn}
+                    component={Main}
+                    cards={cards}
+                    onAddPlace={handleAddPlaceClick}
+                    onEditAvatar={handleEditAvatarClick}
+                    onEditProfile={handleEditProfileClick}
+                    onCardClick={handleCardClick}
+                    onCardLike={handleCardLike}
+                    onCardDelete={handleCardDelete}
                   />
                   <Route>
                     {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
