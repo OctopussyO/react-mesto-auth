@@ -1,5 +1,5 @@
 {
-  "name": "mesto-react",
+  "name": "react-mesto-auth",
   "homepage": ".",
   "version": "0.1.0",
   "private": true,
@@ -15,12 +15,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/OctopussyO/mesto-react.git"
+    "url": "git+https://github.com/OctopussyO/react-mesto-auth.git"
   },
   "author": "Yuliya Doroshina",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/OctopussyO/mesto-react/issues"
+    "url": "https://github.com/OctopussyO/react-mesto-auth/issues"
   },
   "scripts": {
     "start": "react-scripts start",
