@@ -5,13 +5,14 @@ function Popup ({
   children,
   name=null,
   onClose,
+  isOpen,
   isImageInside=false,
   isFormInside=false,
   isTooltipInside=false
 }) {
   const popupClassName = cn(
     'popup',
-    'popup_active',
+    {'popup_active': isOpen},
     {'popup_with_form': isFormInside},
     {'popup_with_image': isImageInside},
     {'popup_with_tooltip': isTooltipInside}

@@ -1,10 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import cn from 'classnames';
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
 import FormInputWithError from "./FormInputWithError";
 
-function EditProfilePopup({ onClose, onUpdateUser }) {
+function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   const themeModificator = "light";
   const actModificator = "activity";
 
@@ -16,8 +16,15 @@ function EditProfilePopup({ onClose, onUpdateUser }) {
 
   // Используем контекст для установки начальных значений стейт-переменных для управляемых компонентов
   const currentUser = useContext(CurrentUserContext);
+  
   const [name, setName] = useState(currentUser.name);
   const [info, setInfo] = useState(currentUser.about);
+
+  useEffect(() => {
+    setName(currentUser.name);
+    setInfo(currentUser.about);
+  }, [isOpen]);
+
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -38,6 +45,7 @@ function EditProfilePopup({ onClose, onUpdateUser }) {
     <PopupWithForm
       title="Редактировать профиль"
       name="edit-profile"
+      isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
       submitTitle="Сохранить"
@@ -57,6 +65,7 @@ function EditProfilePopup({ onClose, onUpdateUser }) {
           onChange={handleNameChange}
           themeModificator={themeModificator}
           actModificator={actModificator}
+          textContent={name}
         />
         <FormInputWithError
           name="info"

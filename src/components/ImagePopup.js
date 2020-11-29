@@ -1,12 +1,13 @@
 import React from "react";
 import Popup from "./Popup";
 
-function ImagePopup({ place, onClose }) {
+function ImagePopup({ place, isOpen, onClose }) {
   return (
     <Popup
       name='enlarge-image'
       isImageInside={true}
       onClose={onClose}
+      isOpen={isOpen}
     >
       <figure className="popup__image-container">
         <img

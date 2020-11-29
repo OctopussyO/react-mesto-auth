@@ -4,8 +4,9 @@ import Popup from "./Popup";
 
 function PopupWithForm({
   title,
-  onClose,
   name,
+  isOpen,
+  onClose,
   onSubmit,
   submitTitle,
   submitLoadingTitle,
@@ -17,6 +18,7 @@ function PopupWithForm({
   return (
     <Popup
       name={name}
+      isOpen={isOpen}
       onClose={onClose}
       isFormInside={true}
     >

@@ -3,7 +3,7 @@ import cn from 'classnames';
 import PopupWithForm from "./PopupWithForm";
 import FormInputWithError from "./FormInputWithError";
 
-function EditAvatarPopup({ onClose, onUpdateAvatar }) {
+function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
   const themeModificator = "light";
   const actModificator = "activity";
 
@@ -30,6 +30,7 @@ function EditAvatarPopup({ onClose, onUpdateAvatar }) {
     <PopupWithForm
       title="Обновить аватар"
       name="edit-avatar"
+      isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
       submitTitle="Сохранить"

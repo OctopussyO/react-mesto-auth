@@ -96,8 +96,8 @@ function App() {
 
   const handleRegister = ({ email, password }) => {
     auth.register({ email, password })
-      .then((data) => {
-        if (data.email) {
+      .then((res) => {
+        if (res.data.email) {
           setSuccess(true);
           setInfoTooltipState(true);
           history.push('/sign-in');
@@ -116,6 +116,7 @@ function App() {
       .then((data) => {
         if (data.token) {
           localStorage.setItem('token', data.token);
+          setUserData({email: email});
           setLoggedIn(true);
           history.push('/');
         }
@@ -178,7 +179,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
 
   const [currentUser, setCurrentUser] = useState({
-    name: "",
+    name: "КУку",
     about: "",
     avatar: "",
   });
@@ -310,41 +311,38 @@ function App() {
           )}
           <Footer loggedIn={loggedIn} />
         </div>
-        {isEditProfilePopupOpen && (
-          <EditProfilePopup
-            onClose={closeAllPopups}
-            onUpdateUser={handleUpdateUser}
-          />
-        )}
-        {isEditAvatarPopupOpen && (
-          <EditAvatarPopup
-            onClose={closeAllPopups}
-            onUpdateAvatar={handleUpdateAvatar}
-          />
-        )}
-        {isAddPlacePopupOpen && (
-          <AddPlacePopup
-            onClose={closeAllPopups}
-            onAddPlace={handleAddPlace} />
-        )}
-        {isImagePopupOpen && (
-          <ImagePopup
-            place={selectedCard}
-            onClose={closeAllPopups} />
-        )}
-        {isConfirmPopupOpen && (
-          <ConfirmPopup
-            deletedCard={selectedCard}
-            onClose={closeAllPopups}
-            onConfirmDelete={handleConfirmDelete}/>
-        )}
-        {isInfoTooltipOpen && 
-          <InfoTooltip
-            isSuccess={isSuccess}
-            message={infoTooltipMessage}
-            onClose={closeInfoTooltip}
-          />
-        }
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+        />
+        <AddPlacePopup
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+          onAddPlace={handleAddPlace}
+        />
+        <ImagePopup
+          place={selectedCard}
+          isOpen={isImagePopupOpen}
+          onClose={closeAllPopups}
+        />
+        <ConfirmPopup
+          deletedCard={selectedCard}
+          isOpen={isConfirmPopupOpen}
+          onClose={closeAllPopups}
+          onConfirmDelete={handleConfirmDelete}
+        />
+        <InfoTooltip
+          isSuccess={isSuccess}
+          message={infoTooltipMessage}
+          isOpen={isInfoTooltipOpen}
+          onClose={closeInfoTooltip}
+        />
       </div>
     </CurrentUserContext.Provider>
   );

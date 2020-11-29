@@ -3,7 +3,7 @@ import cn from 'classnames';
 import FormInputWithError from "./FormInputWithError";
 import PopupWithForm from "./PopupWithForm";
 
-function AddPlacePopup({ onClose, onAddPlace }) {
+function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
   const themeModificator = "light";
   const actModificator = "activity";
 
@@ -36,6 +36,7 @@ function AddPlacePopup({ onClose, onAddPlace }) {
     <PopupWithForm
       title="Новое место"
       name="add-card"
+      isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
       submitTitle="Создать"
