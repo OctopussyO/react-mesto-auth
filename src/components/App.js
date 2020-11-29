@@ -71,7 +71,6 @@ function App() {
       auth.getContent(token)
         .then((res) => {
           if (res.data) {
-            console.log(res.data.email)
             setUserData({email: res.data.email});
             setLoggedIn(true);
           }
@@ -131,6 +130,12 @@ function App() {
         history.push('/sign-in');
       })
       .finally(() => setTooltipMessage(''))
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setUserData({email: ''});
+    setLoggedIn(false);
   }
 
   // Логика открытия/закрытия попапов
@@ -273,7 +278,7 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <div className="page__container">
-          <Header userData={userData} />
+          <Header userData={userData} onLogout={handleLogout} />
           {isLoading ? (
             <div className="spinner spinner_visible" />
           ) : (

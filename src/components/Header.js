@@ -5,7 +5,7 @@ import logoPath from "../images/logo.svg";
 import hamburgerIconPath from '../images/icon-hamburger.svg';
 import closeIconPath from '../images/icon-close.svg';
 
-function Header({ userData }) {
+function Header({ userData, onLogout }) {
   // Реализация кнопки-гамбургера. Выбран такой способ, потому что не вижу смысла
   // подключать целую библиотеку react-responsive из-за одной маленькой фичи.
   const [isOpen, setOpenState] = useState(false);
@@ -21,9 +21,6 @@ function Header({ userData }) {
   
   const handleMenuClick = () => setOpenState(!isOpen);
   
-  const Logout = () => {
-
-  }
   return (
     <header className="header">
       <img
@@ -47,7 +44,7 @@ function Header({ userData }) {
             <p className="header__user-info">
               {userData.email}
             </p>
-            <button className="header__button header__button_content_text" onClick={Logout}>
+            <button className="header__button header__button_content_text" onClick={onLogout}>
               Выйти
             </button>
           </div>
