@@ -7,5 +7,7 @@
   .header__logo {
     width: 104px;
     height: 24px;
+    margin-left: 30px;
+    grid-area: logo;
   }
 }

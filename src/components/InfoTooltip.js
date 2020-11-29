@@ -1,12 +1,12 @@
 import React from 'react';
 import Popup from './Popup';
-import okIcon from '../images/ok-icon.svg';
-import notOkIcon from '../images/not-ok-icon.svg';
+import okIconPath from '../images/icon-ok.svg';
+import notOkIconPath from '../images/icon-not-ok.svg';
 
 function InfoTooltip ({ isSuccess, message, onClose }) {
   const backgroundImageStyles = isSuccess
-    ? {backgroundImage: `url(${okIcon})`}
-    : {backgroundImage: `url(${notOkIcon})`}
+    ? {backgroundImage: `url(${okIconPath})`}
+    : {backgroundImage: `url(${notOkIconPath})`}
 
   const notOkMessage = message ? message : 'Что-то пошло не так! Попробуйте ещё раз.';
   return (

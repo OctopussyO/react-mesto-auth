@@ -41,8 +41,6 @@ function App() {
         setResponseState(true);
       })
       .catch((err) => {
-        // TODO -- убрать строчку ниже -- это на время, пока сервер не работал
-        setResponseState(true)
         setResponseError({
           status: err.status,
           statusText: err.statusText
@@ -70,9 +68,10 @@ function App() {
   const tokenCheck = () => {
     const token = localStorage.getItem('token');
     if (token) {
-      auth.getContent('token')
+      auth.getContent(token)
         .then((res) => {
           if (res.data) {
+            console.log(res.data.email)
             setUserData({email: res.data.email});
             setLoggedIn(true);
           }
@@ -274,7 +273,7 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <div className="page__container">
-          <Header />
+          <Header userData={userData} />
           {isLoading ? (
             <div className="spinner spinner_visible" />
           ) : (
