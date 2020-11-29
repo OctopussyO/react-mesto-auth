@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import cn from 'classnames';
 import useFormValidation from '../hooks/useFormValidation';
 import FormSubmit from "./FormSubmit";
@@ -13,6 +13,7 @@ function Form ({
   submitLoadingTitle,
   isSubmitActive,
   onSubmit,
+  isInfoTooltipOpen
 }) {
   const formClassName = cn(
     'form',
@@ -38,6 +39,12 @@ function Form ({
     setSubmitState(true);
     onSubmit();
   };
+
+  // Для случаев, когда появляется тултип с результатом отправки формы,
+  // обнуляем стейт кнопки отправки формы, чтобы убрать прелоадер.
+  useEffect(() => {
+    setSubmitState(false);
+  }, [isInfoTooltipOpen]);
 
   // Используем пользовательский хук валидации формы
   let { isSubmitValid } = useFormValidation({ formRef, isSubmitActive });

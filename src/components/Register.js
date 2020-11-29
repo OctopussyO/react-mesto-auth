@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom'
 import cn from 'classnames';
 import Form from './Form';
 import FormInputWithError from './FormInputWithError';
 
-function Register ({ onRegister }) {
+function Register ({ onRegister, loggedIn, isInfoTooltipOpen }) {
   const themeModificator = "dark";
   const actModificator = "identification";
 
@@ -14,13 +14,21 @@ function Register ({ onRegister }) {
     {[`form__fieldset_act_${actModificator}`]: actModificator},
   );
 
+  // При загрузке страницы, если пользователь залогинен, переадрисовываем его на главную
+  // Сделала так, чтобы была возможность зайти на гипотетический другие (кроме главной)
+  // страницы из адресной строки.
+  const history = useHistory();
+
+  useEffect(() => {
+    if (loggedIn) {
+      history.push('/');
+    }
+  }, []);
+
   const [data, setData] = useState({
     email: '',
     password: '',
   });
-
-  // const [email, setEmail] = useState('');
-  // const [password, setPassword] = useState('');
 
   const handleDataChange = (e) => {
     const {name, value} = e.target;
@@ -46,6 +54,7 @@ function Register ({ onRegister }) {
         submitLoadingTitle="Регистрация..."
         isSubmitActive={false}
         onSubmit={handleSubmit}
+        isInfoTooltipOpen={isInfoTooltipOpen}
       >
         <fieldset className={fieldsetClassName}>
           <FormInputWithError

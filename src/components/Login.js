@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom'
 import cn from 'classnames';
 import Form from './Form';
 import FormInputWithError from './FormInputWithError';
 
-function Login ({ onLogin, tokenCheck }) {
+function Login ({ onLogin, loggedIn, isInfoTooltipOpen }) {
   const themeModificator = "dark";
   const actModificator = "identification";
 
@@ -12,6 +13,17 @@ function Login ({ onLogin, tokenCheck }) {
     {[`form__fieldset_theme_${themeModificator}`]: themeModificator},
     {[`form__fieldset_act_${actModificator}`]: actModificator},
   );
+  
+  // При загрузке страницы, если пользователь залогинен, переадрисовываем его на главную
+  // Сделала так, чтобы была возможность зайти на гипотетический другие (кроме главной)
+  // страницы из адресной строки.
+  const history = useHistory();
+
+  useEffect(() => {
+    if (loggedIn) {
+      history.push('/');
+    }
+  }, []);
 
   const [data, setData] = useState({
     email: '',
@@ -42,6 +54,7 @@ function Login ({ onLogin, tokenCheck }) {
         submitLoadingTitle="Вход..."
         isSubmitActive={false}
         onSubmit={handleSubmit}
+        isInfoTooltipOpen={isInfoTooltipOpen}
       >
         <fieldset className={fieldsetClassName}>
           <FormInputWithError

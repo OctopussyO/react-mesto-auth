@@ -10,7 +10,6 @@ class Auth  {
   }
 
   register(data) {
-    console.log(data)
     return fetch(`${this._baseUrl}/signup`, {
       method: 'POST',
       headers: {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import cn from 'classnames';
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { api } from "../utils/api";
@@ -87,10 +87,14 @@ function App() {
 
   // Стейт-переменная для определения контента тултипа
   const [isSuccess, setSuccess] = useState(true);
-  const [tooltipMessage, setTooltipMessage] = useState();
+  const [infoTooltipMessage, setInfoTooltipMessage] = useState();
+
+  const handleNotSuccessResponse = () => {
+    setSuccess(false);
+    setInfoTooltipState(true);
+  }
 
   const handleRegister = ({ email, password }) => {
-    console.log(email, password)
     auth.register({ email, password })
       .then((data) => {
         if (data.email) {
@@ -100,14 +104,11 @@ function App() {
         }
       })
       .catch((err) => {
-        setSuccess(false);
         if (err.status === 400) {
-          setTooltipMessage('Некорректно заполнено одно из полей.')
+          setInfoTooltipMessage('Некорректно заполнено одно из полей.');
         }
-        setInfoTooltipState(true);
-        history.push('/sign-up');
+        handleNotSuccessResponse();
       })
-      .finally(() => setTooltipMessage(''))
   }
 
   const handleLogin = ({ email, password }) => {
@@ -120,16 +121,13 @@ function App() {
         }
       })
       .catch((err) => {
-        setSuccess(false);
         if (err.status === 401) {
-          setTooltipMessage('Некорректно введён email или пароль.')
+          setInfoTooltipMessage('Некорректно введён email или пароль.')
         } else if (err.status === 400) {
-          setTooltipMessage('Не передано одно из полей.')
+          setInfoTooltipMessage('Не передано одно из полей.')
         }
-        setInfoTooltipState(true);
-        history.push('/sign-in');
+        handleNotSuccessResponse();
       })
-      .finally(() => setTooltipMessage(''))
   }
 
   const handleLogout = () => {
@@ -169,8 +167,12 @@ function App() {
     setAddPlacePopupState(false);
     setImagePopupState(false);
     setConfirmPopupState(false);
-    setInfoTooltipState(false);
   };
+  
+  const closeInfoTooltip = () => {
+    setInfoTooltipState(false);
+    setInfoTooltipMessage('');
+  }
 
   // Стейт-переменные для текущего состояния страницы
   const [selectedCard, setSelectedCard] = useState({});
@@ -278,7 +280,7 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <div className="page__container">
-          <Header userData={userData} onLogout={handleLogout} />
+          <Header userData={userData} onLogout={handleLogout} wasResponse={wasResponse} />
           {isLoading ? (
             <div className="spinner spinner_visible" />
           ) : (
@@ -286,10 +288,18 @@ function App() {
               <div className={contentClassName}>
                 <Switch>
                   <Route path="/sign-in">
-                    <Login onLogin={handleLogin} tokenCheck={tokenCheck} />
+                    <Login
+                      onLogin={handleLogin}
+                      isInfoTooltipOpen={isInfoTooltipOpen}
+                      loggedIn={loggedIn}
+                    />
                   </Route>
                   <Route path="/sign-up">
-                    <Register onRegister={handleRegister}/>
+                    <Register
+                      onRegister={handleRegister}
+                      isInfoTooltipOpen={isInfoTooltipOpen}
+                      loggedIn={loggedIn}
+                    />
                   </Route>
                   <ProtectedRoute 
                     exact={true}
@@ -297,6 +307,9 @@ function App() {
                     component={WrappedMain}
                     loggedIn={loggedIn}
                   />
+                  <Route>
+                    {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+                  </Route>
                 </Switch>
               </div>
               <ResponseError
@@ -338,8 +351,8 @@ function App() {
         {isInfoTooltipOpen && 
           <InfoTooltip
             isSuccess={isSuccess}
-            message={tooltipMessage}
-            onClose={closeAllPopups}
+            message={infoTooltipMessage}
+            onClose={closeInfoTooltip}
           />
         }
       </div>
